@@ -1,8 +1,8 @@
-from django.conf.urls import url
+from django.urls import path
 
 from apps.tokens.views import TokensView
 
 
 urlpatterns = [
-    url('^tokens/?', TokensView.as_view(), name='tokens'),
+    path('tokens/', TokensView.as_view(), name='tokens'),
 ]

@@ -125,7 +125,7 @@ def custom_exception_handler(exc, context):
         # Unhandled exceptions (500 internal server errors)
         response = Response(data={
             'error': 'server_error',
-            'error_description': unicode(exc),
+            'error_description': exc,
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         return response
 

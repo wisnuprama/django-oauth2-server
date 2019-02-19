@@ -58,7 +58,7 @@ class OAuthUser(OAuthCredentials):
     ... ).full_clean()
     Traceback (most recent call last):
         ...
-    ValidationError: {'__all__': [u'Email not unique']}
+    django.core.exceptions.ValidationError: {'__all__': ['Email not unique']}
     """
     email = models.CharField(
         max_length=254,
@@ -66,7 +66,7 @@ class OAuthUser(OAuthCredentials):
         validators=[EmailValidator()],
     )
 
-    def __unicode__(self):
+    def __str__(self):
         return self.email
 
     def validate_unique(self, exclude=None):
@@ -109,5 +109,5 @@ class OAuthClient(OAuthCredentials):
     )
     redirect_uri = models.CharField(max_length=200, null=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.client_id

@@ -1,5 +1,5 @@
-import urllib
 import base64
+from urllib.parse import urlencode
 
 from rest_framework.test import APIClient
 from rest_framework import status
@@ -86,7 +86,7 @@ class AuthorizationCodeTest(TestCase):
     def test_missing_state(self):
         self.assertEqual(OAuthAuthorizationCode.objects.count(), 0)
 
-        query_string = urllib.urlencode({
+        query_string = urlencode({
             'client_id': 'testclient',
             'response_type': 'code',
             'redirect_uri': 'http://www.example.com'
@@ -103,7 +103,7 @@ class AuthorizationCodeTest(TestCase):
     def test_success(self):
         self.assertEqual(OAuthAuthorizationCode.objects.count(), 0)
 
-        query_string = urllib.urlencode({
+        query_string = urlencode({
             'client_id': 'testclient',
             'response_type': 'code',
             'redirect_uri': 'http://www.example.com',
@@ -159,7 +159,7 @@ class AuthorizationCodeTest(TestCase):
     def test_expired_code(self):
         self.assertEqual(OAuthAuthorizationCode.objects.count(), 0)
 
-        query_string = urllib.urlencode({
+        query_string = urlencode({
             'client_id': 'testclient',
             'response_type': 'code',
             'redirect_uri': 'http://www.example.com',

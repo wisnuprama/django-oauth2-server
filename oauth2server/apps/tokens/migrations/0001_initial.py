@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('expires_at', models.DateTimeField()),
                 ('access_token', models.CharField(unique=True, max_length=40)),
-                ('client', models.ForeignKey(to='credentials.OAuthClient')),
+                ('client', models.ForeignKey(to='credentials.OAuthClient', on_delete=models.CASCADE)),
             ],
             options={
                 'abstract': False,
@@ -31,7 +31,7 @@ class Migration(migrations.Migration):
                 ('expires_at', models.DateTimeField()),
                 ('code', models.CharField(unique=True, max_length=40)),
                 ('redirect_uri', models.CharField(max_length=200, null=True)),
-                ('client', models.ForeignKey(to='credentials.OAuthClient')),
+                ('client', models.ForeignKey(to='credentials.OAuthClient', on_delete=models.CASCADE)),
             ],
             options={
                 'abstract': False,
@@ -71,13 +71,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='oauthauthorizationcode',
             name='user',
-            field=models.ForeignKey(to='credentials.OAuthUser', null=True),
+            field=models.ForeignKey(to='credentials.OAuthUser', null=True, on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='oauthaccesstoken',
             name='refresh_token',
-            field=models.OneToOneField(related_name='access_token', null=True, to='tokens.OAuthRefreshToken'),
+            field=models.OneToOneField(related_name='access_token', null=True, to='tokens.OAuthRefreshToken', on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
@@ -89,7 +89,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='oauthaccesstoken',
             name='user',
-            field=models.ForeignKey(to='credentials.OAuthUser', null=True),
+            field=models.ForeignKey(to='credentials.OAuthUser', null=True, on_delete=models.CASCADE),
             preserve_default=True,
         ),
     ]
