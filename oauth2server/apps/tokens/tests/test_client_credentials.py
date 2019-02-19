@@ -76,23 +76,20 @@ class ClientCredentialsTest(TestCase):
         self.assertEqual(OAuthRefreshToken.objects.count(), 0)
 
         token = str(base64.encodebytes('bogus:bogus'.encode('utf-8')), 'utf-8')
+        
+        response = self.api_client.post(
+            path='/api/v1/tokens/',
+            data={'grant_type': 'client_credentials'},
+            HTTP_AUTHORIZATION='Basic: {}'.format(token),
+        )
 
-        try:
-            response = self.api_client.post(
-                path='/api/v1/tokens/',
-                data={'grant_type': 'client_credentials'},
-                HTTP_AUTHORIZATION='Basic: {}'.format(token),
-            )
-        except Exception as e:
-            print(e)
+        self.assertEqual(OAuthAccessToken.objects.count(), 0)
+        self.assertEqual(OAuthRefreshToken.objects.count(), 0)
 
-        # self.assertEqual(OAuthAccessToken.objects.count(), 0)
-        # self.assertEqual(OAuthRefreshToken.objects.count(), 0)
-
-        # self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
-        # self.assertEqual(response.data['error'], 'invalid_client')
-        # self.assertEqual(response.data['error_description'],
-        #                  'Invalid client credentials')
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.data['error'], 'invalid_client')
+        self.assertEqual(response.data['error_description'],
+                         'Invalid client credentials')
 
     def test_success(self):
         self.assertEqual(OAuthAccessToken.objects.count(), 0)
